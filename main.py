@@ -12,16 +12,20 @@ ENTRY = (
 )
 
 
-def main():
-    out_dir = "/output"
-    os.makedirs(out_dir, exist_ok=True)
-    # Clean only the contents of /output; never remove the folder itself.
+def clear_output_dir(out_dir):
+    """Remove only the contents of out_dir, never the folder itself."""
     for name in os.listdir(out_dir):
         path = os.path.join(out_dir, name)
         if os.path.isdir(path) and not os.path.islink(path):
             shutil.rmtree(path)
         else:
             os.unlink(path)
+
+
+def main():
+    out_dir = "/output"
+    os.makedirs(out_dir, exist_ok=True)
+    clear_output_dir(out_dir)
     with open(os.path.join(out_dir, "entry.txt"), "w", encoding="utf-8") as f:
         f.write(ENTRY + "\n")
 
